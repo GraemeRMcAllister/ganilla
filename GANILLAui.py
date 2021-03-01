@@ -12,6 +12,7 @@ from tkinter import scrolledtext
 from options.test_options import TestOptions
 from util.visualizer import save_images
 from util import html
+from PIL import ImageTk, Image
 
 class IORedirector(object):
     '''A general class for redirecting I/O to this Text widget.'''
@@ -40,6 +41,9 @@ opt.no_flip = True    # no flip
 opt.display_id = -1   # no visdom display  
 opt.name = ""
 
+img_list = []
+img_name_list = []
+
 
 def getDirectory():
     path = filedialog.askdirectory(initialdir = "/",
@@ -66,8 +70,87 @@ def openViewWin():
   
     # A Label widget to show in toplevel 
     Label(newWindow,  text ="This is a new window").pack()
+
+def openImageView(event, obj):
+
+    imageViewer = Toplevel(window)
+
+    canvas = Canvas(imageViewer, width = 1000, height = 1000)  
+    canvas.pack()  
+    img = ImageTk.PhotoImage(Image.open("display_results/"+img_name_list[obj]).resize((1000,1000), Image.ANTIALIAS))
+    canvas.create_image(20, 20, anchor=NW, image=img)  
+
+    imageViewer.mainloop()
+
+def opeNewWindow(winType):
+
+    newWindow = Toplevel(window)
+    winTitle=""
+    winDescription=""
+    list_of_images = []
+    blankImage = ImageTk.PhotoImage(Image.open("blank.png").resize((250,250), Image.ANTIALIAS))
+
+    if winType == "results":
+        winTitle="Results Window"
+        winDescription="Below you'll find the translated images"
+
+
+        for image in os.listdir("display_results"):
+            if image.endswith("png"):
+                list_of_images.append(image)
+
+        scroll_length = (len(list_of_images)/7) * 250
+
+
+        frame=Frame(newWindow,width=500,height=500)
+        frame.pack(expand=True, fill=BOTH) #.grid(row=0,column=0)
+       
+                    
+        canvas  = Canvas(frame, width = 500, height = 500, bg='blue', scrollregion=(0,0,1000,scroll_length))
+        
+       
+        hbar=Scrollbar(frame,orient=HORIZONTAL)
+        hbar.pack(side=BOTTOM,fill=X)
+        hbar.config(command=canvas.xview)
+        vbar=Scrollbar(frame,orient=VERTICAL)
+        vbar.pack(side=RIGHT,fill=Y)
+        vbar.config(command=canvas.yview)
+        canvas.config(width=500,height=500)
+        canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
+
+        
+
+
+        counterx=1
+        countery=0
+        img_counter=0
+        for img in list_of_images:
+            if counterx>7:
+                countery+=250
+                counterx=1
+            image = ImageTk.PhotoImage(Image.open("display_results/"+img).resize((250,250), Image.ANTIALIAS))
+            img_list.append(image)
+            img_name_list.append(img)
+            button = canvas.create_image((250*counterx) - 250,countery, image=image, anchor='nw')
+            blank = canvas.create_image((250*counterx) - 250,countery, image=blankImage, state=NORMAL, anchor='nw')
+            canvas.tag_bind(blank, "<Button-1>",lambda event, obj=img_counter: openImageView(event, obj))
+            img_counter+=1
+            counterx+=1
+        
+        
+        
+    else:
+        winTitle="Information Window"
+        winDescription="Infomration about the team and project!"
+        
     
-  
+    newWindow.title(winTitle) 
+    newWindow.geometry("500x500")
+    
+    Label(newWindow, text=winDescription).pack()
+    canvas.pack(side=LEFT,expand=True,fill=BOTH)
+    newWindow.mainloop()
+    
 
 def convert():
     progressbar.start(250)
@@ -202,7 +285,7 @@ btnOutput = Button(frameInput, text='Output Directory', font='Helvetica 10', wid
 tip.bind_widget(btnOutput, balloonmsg="test")
 btnConv = Button(frameConvert, text='Convert', font='Helvetica 10', width=12, height=1, command=convert, bg="white")
 tip.bind_widget(btnConv, balloonmsg="test")
-btnResult = Button(frameConvert, text='Results', font='Helvetica 10', width=12, height=1, command = openViewWin, bg="white")
+btnResult = Button(frameConvert, text='Results', font='Helvetica 10', width=12, height=1, command=lambda: opeNewWindow("results"), bg="white")
 tip.bind_widget(btnResult, balloonmsg="test")
 
 #placing all the UI objects on screen
