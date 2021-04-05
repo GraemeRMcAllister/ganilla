@@ -193,8 +193,12 @@ def convert():
     if(chkGpuVar.get() == 0):
         opt.gpu_ids.clear()
     #opt.remove_images = chkDelVar.get()
-    opt.epoch = drpEpochOp.get()
     opt.resize_or_crop = drpResizeOp.get()
+    try:
+        opt.epoch = txtEpoch.get()
+    except Exception as e:
+        print(e)
+        
     
     if(opt.resize_or_crop.__contains__('scale')):
         for i in range(len(validSizes) - 2):
@@ -279,8 +283,7 @@ frameResultsDir = Frame(frameLabels).pack(side=LEFT, padx=10)
 
 
 # setting varaibles
-drpEpochOp = StringVar(window)
-drpEpochOp.set("14")
+
 drpResizeOp = StringVar(window)
 drpResizeOp.set("scale_width")
 
@@ -292,11 +295,10 @@ lblFoot = Label(window, text='CREATED BY GM, ND, & CD', font='Helvetica 10', fg=
 
 btnInfo = Button(window, text='INFORMATION', bg="black", fg="white", font='Helvetica 8 bold', width=10, height=1)
 
-lblEpoch = Label(frameEpochLabel, text='Epoch no.', font='Helvetica 10 bold', bg="white")
+lblEpoch = Label(frameEpochLabel, text='Model Prefix', font='Helvetica 10 bold', bg="white")
 lblResize = Label(frameEpochLabel, text='Resize', font='Helvetica 10 bold', bg="white")
-drpEpoch = OptionMenu(frameEpoch, drpEpochOp, "1", "2", "3","5","6","7","8","10","11","12","13","14", "15")
-drpEpoch.configure(bg="white")
-tip.bind_widget(drpEpoch, balloonmsg="test")
+txtEpoch = Entry(frameEpoch,  bg="white", width = 10,)
+# tip.bind_widget(drpEpoch, balloonmsg="test")
 drpResize = OptionMenu(frameEpoch, drpResizeOp, "resize_and_crop", "scale_width", "scale_width_and_crop", "none")
 drpResize.configure(width=11, bg="white")
 tip.bind_widget(drpResize, balloonmsg="test")
@@ -341,7 +343,7 @@ frameEpochLabel.pack(side = TOP, pady=10, padx=10, anchor=W)
 lblEpoch.pack(side = LEFT, padx=(0,40))
 lblResize.pack(side = LEFT, padx=(15,0))
 frameEpoch.pack(side = TOP, anchor=W, padx=10)
-drpEpoch.pack(side = LEFT)
+txtEpoch.pack(side = LEFT)
 drpResize.pack(side = LEFT, padx=(65,0))
 
 lblFine.pack(side = TOP, pady=(10,0), padx=10, anchor=W)
