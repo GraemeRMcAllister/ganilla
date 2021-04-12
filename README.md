@@ -1,3 +1,7 @@
+# Root enchancement and GANILLA fron-end
+
+Repository for root-enhance project and GANILLA front-end, as per LICENSE intruction. All copyright is retained by GANILLA. Original README is included below
+
 # GANILLA
 
 We provide PyTorch implementation for: 
