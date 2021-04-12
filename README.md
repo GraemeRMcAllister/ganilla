@@ -1,4 +1,4 @@
-# Root enchancement and GANILLA fron-end
+# Root enchancement and GANILLA front-end
 
 Repository for root-enhance project and GANILLA front-end, as per LICENSE intruction. All copyright is retained by GANILLA. Original README is included below
 
