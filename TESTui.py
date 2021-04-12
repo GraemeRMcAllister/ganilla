@@ -1,6 +1,7 @@
 from numpy.core.fromnumeric import var
 from models import create_model
 from data import CreateDataLoader
+
 import sys, os, math, threading, time
 import tkinter as tk
 import tkinter.font as font
@@ -15,6 +16,7 @@ from PIL import ImageTk, Image
 class IORedirector(object):
     '''A general class for redirecting I/O to this Text widget.'''
     def __init__(self,  text_area):
+
         self.text_area = text_area
 
 class StdoutRedirector(IORedirector):
@@ -24,7 +26,9 @@ class StdoutRedirector(IORedirector):
         self.text_area.see('end')
         self.text_area.insert(END, str)
         window.update()
+
         
+
 validSizes = [256, 320, 384, 448, 512, 576, 640, 704, 768, 848, 912, 976, 1040, 1104, 
               1168, 1232, 1296, 1360, 1424, 1488, 1552, 1616, 1680, 1744, 1808, 1872,
               1936, 2000, 2064, 2128, 2192, 2256, 2320, 2384, 2448, 2512, 2576, 2640, 
@@ -40,6 +44,7 @@ opt.serial_batches = True  # no shuffle
 opt.no_flip = True    # no flip
 opt.display_id = -1   # no visdom display  
 opt.name = ""
+
 
 img_refrence = []
 img_name_list = []
@@ -189,6 +194,7 @@ def start_convert():
     print("Starting Conversion...")
     thread.start()
 
+
 def convert():
     if(chkGpuVar.get() == 0):
         opt.gpu_ids.clear()
@@ -199,23 +205,29 @@ def convert():
     except Exception as e:
         print(e)
         
+
     
     if(opt.resize_or_crop.__contains__('scale')):
         for i in range(len(validSizes) - 2):
             if (sclFineVar.get() < validSizes[i+1] and sclFineVar.get() >= validSizes[i]):
                 opt.fineSize = validSizes[i]
 
+
                             
+
     print(testOptions.return_options(opt))
     try:
         data_loader = CreateDataLoader(opt)
         dataset = data_loader.load_data()
         model = create_model(opt)
         model.setup(opt)
+
+
         # test with eval mode. This only affects layers like batchnorm and dropout.
         # pix2pix: we use batchnorm and dropout in the original pix2pix. You can experiment it with and without eval() mode.
         # CycleGAN: It should not affect CycleGAN as CycleGAN uses instancenorm without dropout.
         
+
         progressbar.configure(maximum=len(dataset))
         #progressbar.start(len(dataset))
         for i, data in enumerate(dataset):
@@ -284,10 +296,12 @@ frameResultsDir = Frame(frameLabels).pack(side=LEFT, padx=10)
 
 # setting varaibles
 
+
 drpResizeOp = StringVar(window)
 drpResizeOp.set("scale_width")
 
 #creating all the UI objects (lables, buttons, inputs)
+
 lblTitle = Label(window, text='GANILLA UI - TEST', font='Helvetica 20 bold', fg="white", bg="black", anchor='nw', width=40, height=1)
 lblSub = Label(window, text='CONVERT POOR QUALITY CAPTURES TO HIGH QUALITY CAPTURES', font='Helvetica 10', fg="white", bg="black", anchor='nw', width=85, height=1)
 
@@ -334,10 +348,12 @@ btnResult = Button(frameConvert, text='Results Window', font='Helvetica 10', wid
 tip.bind_widget(btnResult, balloonmsg="test")
 btnCancel = Button(window, text='Cancel', font='Helvetica 10', width=12, height=1, command=cancel_convert, bg="white")
 
+
 #placing all the UI objects on screen
 lblTitle.pack(fill=X)
 lblSub.pack(fill=X)
 lblFoot.pack(fill=X, side=BOTTOM)
+
 
 frameEpochLabel.pack(side = TOP, pady=10, padx=10, anchor=W)
 lblEpoch.pack(side = LEFT, padx=(0,40))
@@ -382,4 +398,5 @@ outputBox.place(x=251, y=75)
 
 sys.stdout = StdoutRedirector( outputBox )
 print("Please select the folder containing the model and the folder containing the dataset. Followed by the target results directory if desired.")
+
 window.mainloop()
