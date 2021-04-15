@@ -262,7 +262,7 @@ def convert():
 
 window = tix.Tk()  
 window.title('GANILLA UI - TEST') 
-window.geometry("700x575")
+window.geometry("720x600")
 window.resizable(False, False)
 window.configure(bg="white")
 
@@ -305,7 +305,9 @@ drpResizeOp.set("scale_width")
 lblTitle = Label(window, text='GANILLA UI - TEST', font='Helvetica 20 bold', fg="white", bg="black", anchor='nw', width=40, height=1)
 lblSub = Label(window, text='CONVERT POOR QUALITY CAPTURES TO HIGH QUALITY CAPTURES', font='Helvetica 10', fg="white", bg="black", anchor='nw', width=85, height=1)
 
-lblFoot = Label(window, text='CREATED BY GM, ND, & CD', font='Helvetica 10', fg="white", bg="black", anchor='nw', width=85, height=1)
+lblFoot = Label(window, text='CREATED BY GM, ND, & CD\nCopyright (c) 2017, Jun-Yan Zhu and Taesung Park\nAll rights reserved.', justify=LEFT, font='Helvetica 10', fg="white", bg="black", anchor='nw', width=85, height=3)
+
+
 
 btnInfo = Button(window, text='INFORMATION', bg="black", fg="white", font='Helvetica 8 bold', width=10, height=1)
 
@@ -388,15 +390,15 @@ btnCancel.pack(side = TOP, padx=(10,0), anchor=W)
 outputBox = scrolledtext.ScrolledText(window,
                                       padx = 5,
                                       pady = 5,
-                                      wrap = tk.WORD,  
+                                      wrap = tk.WORD,
                                       width = 60,  
                                       height = 28,  
                                       font = ("Arial", 
                                               10)) 
 
-outputBox.place(x=251, y=75) 
+outputBox.place(x=265, y=75) 
 
 sys.stdout = StdoutRedirector( outputBox )
-print("Please select the folder containing the model and the folder containing the dataset. Followed by the target results directory if desired.")
+print("Please select the folder containing the model; and the folder containing the dataset. Followed by the target results directory if desired.")
 
 window.mainloop()

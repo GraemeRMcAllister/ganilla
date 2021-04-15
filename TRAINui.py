@@ -152,7 +152,7 @@ def train():
 
 window = tix.Tk()  
 window.title('GANILLA UI - TRAIN') 
-window.geometry("815x575")
+window.geometry("815x600")
 window.resizable(False, False)
 window.configure(bg="white")
 
@@ -186,7 +186,7 @@ outputBox = scrolledtext.ScrolledText(window,
 
 lblTitle = Label(window, text='GANILLA UI - TRAIN', font='Helvetica 20 bold', fg="white", bg="black", anchor='nw', width=40, height=1)
 lblSub = Label(window, text='TRAIN A MODEL, WITH A DATASET, FOR USE IN TESTING', font='Helvetica 10', fg="white", bg="black", anchor='nw', width=85, height=1)
-lblFoot = Label(window, text='CREATED BY GM, ND & CD', font='Helvetica 10', fg="white", bg="black", anchor='nw', width=85, height=1)
+lblFoot = Label(window, text='CREATED BY GM, ND & CD\nCopyright (c) 2017, Jun-Yan Zhu and Taesung Park\nAll rights reserved.', justify=LEFT, font='Helvetica 10', fg="white", bg="black", anchor='nw', width=85, height=3)
 
 lblName = Label(window, text='Model Name', font='Helvetica 10 bold', bg="white")
 txtName = Entry(window, width = 20, bg="white") #textVariable = modelName
@@ -278,7 +278,7 @@ frameStart.pack(side = TOP, pady=20, padx=10, anchor=W)
 btnStart.pack(side = LEFT, anchor=W)
 btnCancel.pack(side = LEFT, padx=(30,0), anchor=W)
 
-outputBox.place(x=300, y=75)
+outputBox.place(x=300, y=65)
 
 sys.stdout = StdoutRedirector( outputBox )
 print("INSTRUCTIONS:")
